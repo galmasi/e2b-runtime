@@ -536,7 +536,7 @@ var (
 	// future retirements.
 	EgressRetirementTimeoutMsFlag = NewIntFlag("egress-retirement-timeout-ms", 60000)
 
-	MaxSandboxesPerNode = NewIntFlag("max-sandboxes-per-node", 200)
+	MaxSandboxesPerNode = NewIntFlag("max-sandboxes-per-node", 2000)
 	// The LD keys keep the legacy "gcloud-" prefix, but the limits apply to uploads on all storage providers.
 	StorageConcurrentUploadLimit  = NewIntFlag("gcloud-concurrent-upload-limit", 8)
 	StorageMaxUploadTasks         = NewIntFlag("gcloud-max-tasks", 16)
@@ -706,7 +706,7 @@ var (
 
 	// MaxStartingInstancesPerNode limits concurrent sandbox start/resume operations on a single orchestrator node.
 	// Must be > 0.
-	MaxStartingInstancesPerNode = NewIntFlag("max-starting-instances-per-node", 3)
+	MaxStartingInstancesPerNode = NewIntFlag("max-starting-instances-per-node", 30)
 
 	// MaxConcurrentEvictions caps the number of sandbox evictions that can run
 	// in parallel per API instance. Excess items remain expired in the store

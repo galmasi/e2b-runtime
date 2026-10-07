@@ -6,7 +6,7 @@
 # the same shape preflight.sh and fetch-artifacts.sh use.
 if [ -z "${HS_NO_MAIN:-}" ]; then set -euo pipefail; fi
 
-NBDS_MAX="${NBDS_MAX:-64}"
+NBDS_MAX="${NBDS_MAX:-1024}"
 NBD_MAX_PART="${NBD_MAX_PART:-16}"
 HUGEPAGES="${HUGEPAGES:-2048}"
 

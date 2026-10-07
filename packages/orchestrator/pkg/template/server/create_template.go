@@ -5,6 +5,8 @@ package server
 import (
 	"context"
 	"fmt"
+  "os"
+  "strings"
 
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
@@ -167,7 +169,10 @@ func (s *ServerStore) TemplateCreate(ctx context.Context, templateRequest *templ
 		}
 	}
 
-	hugePages := fcInfo.HasHugePages()
+  hugePages := false
+  if v := os.Getenv("E2B_TEMPLATE_HUGEPAGES"); v != "" {
+	   hugePages = fcInfo.HasHugePages() && (strings.ToLower(v) == "true")
+  }
 	freePageReporting := fcInfo.HasFreePageReporting() && s.featureFlags.BoolFlag(ctx, featureflags.FreePageReportingFlag)
 	freePageHinting := fcInfo.HasFreePageHinting() && featureflags.IsFreePageHintingEnabled(ctx, s.featureFlags)
 

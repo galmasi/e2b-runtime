@@ -214,7 +214,7 @@ services:
         condition: service_completed_successfully
     environment:
       HUGEPAGES: ${HUGEPAGES:-2048}
-      NBDS_MAX: ${NBDS_MAX:-64}
+      NBDS_MAX: ${NBDS_MAX:-1024}
     command: ["/bin/sh", "-c", "exec nsenter -t 1 -m -u -i -n -p -- /bin/bash -s < /opt/e2b/scripts/host-setup.sh"]
 
   fetch-artifacts:
