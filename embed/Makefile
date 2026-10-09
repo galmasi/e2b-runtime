@@ -79,7 +79,7 @@ images:
 	set -a; . ./compose/.env; set +a; \
 	docker buildx bake --load \
 	  --set "*.platform=linux/$$(docker version -f '{{.Server.Arch}}')" \
-	  --set "seed.context=https://github.com/e2b-dev/runtime.git#$${RUNTIME_COMMIT}" \
+	  --set "seed.context=https://github.com/galmasi/e2b-runtime.git#$${RUNTIME_COMMIT}" \
 	  --set seed.args.SRC=packages \
 	  --set "tools.tags=$${E2B_TOOLS_IMAGE}" \
 	  --set "node-e2b.tags=$${E2B_NODE_E2B_IMAGE}" \

@@ -5,6 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"os"
+	"strings"
 	"time"
 
 	"go.opentelemetry.io/otel/attribute"
@@ -310,7 +312,10 @@ func (o *Orchestrator) CreateSandbox(
 		}
 	}
 
-	hasHugePages := fcSemver.HasHugePages()
+	hasHugePages := false
+	if v := os.Getenv("E2B_TEMPLATE_HUGEPAGES"); v != "" {
+		hasHugePages = fcSemver.HasHugePages() && (strings.ToLower(v) == "true")
+	}
 	telemetry.ReportEvent(ctx, "Got FC info")
 
 	var sbxDomain *string
