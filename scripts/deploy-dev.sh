@@ -257,10 +257,10 @@ stage_services() {
         'export PATH=/usr/local/go/bin:/snap/bin:\$PATH; cd ~/e2b-runtime && make -C packages/api run-local' Enter"
 
     # --- Orchestrator ---
-    log "Starting orchestrator (build-debug + run-local)..."
+    log "Starting orchestrator (release build + run-local)..."
     ssh "$HOST" "tmux new-window -t $TMUX_SESSION -n orchestrator"
     ssh "$HOST" "tmux send-keys -t $TMUX_SESSION:orchestrator \
-        'export PATH=/usr/local/go/bin:/snap/bin:\$PATH; cd ~/e2b-runtime && make -C packages/orchestrator build-debug && sudo make -C packages/orchestrator run-local' Enter"
+        'export PATH=/usr/local/go/bin:/snap/bin:\$PATH; cd ~/e2b-runtime && make -C packages/orchestrator build-debug RACE_FLAG=\"\" DEBUG_GCFLAGS=\"\" && sudo make -C packages/orchestrator run-local' Enter"
 
     # --- Client proxy ---
     log "Starting client proxy..."
@@ -282,9 +282,13 @@ stage_services() {
 stage_template() {
     log "=== Stage: template ==="
 
-    log "Building base template (this takes ~2 min)..."
+    log "Building base template (512 MB RAM, ~2 min)..."
     remote 'set -o pipefail; make -C packages/shared/scripts local-build-base-template 2>&1 | grep -E "^\[|Build finished|error|make:"' \
         || die "Base template build failed"
+
+    log "Building base-128m template (128 MB RAM, ~2 min)..."
+    remote 'set -o pipefail; make -C packages/shared/scripts local-build-base-128m-template 2>&1 | grep -E "^\[|Build finished|error|make:"' \
+        || die "base-128m template build failed"
 
     log "template done"
 }
